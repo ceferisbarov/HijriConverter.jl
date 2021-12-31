@@ -1,9 +1,7 @@
 module locales
-
-import Base.@kwdef
 """Localization for the Hijri month and day names."""
 
-#from typing import Any, ClassVar, Dict, List, Type
+import Base.@kwdef
 
 @doc   """A Hijri locale object represents locale-specific data and functionality."""
 @kwdef struct Locale
@@ -145,7 +143,6 @@ BengaliLocale = Locale(
 
 _locale_map = Dict{String, Locale}("en" => EnglishLocale, "ar" => ArabicLocale, "bn" => BengaliLocale)
 
-
 @doc  """Return an appropriate :obj:`Locale` corresponding to a locale name.
 
       :param name: name of the locale.
@@ -160,8 +157,6 @@ function get_locale(name::String)
     end
     return locale_cls
 end
-
-
 
 locale_union = Union{Locale} #TODO: Automate this list
 function __init_subclass__(locale::locale_union)
@@ -200,6 +195,4 @@ function day_name(locale::locale_union, day::Int)  #TODO: locale should be one o
    
         return locale.day_names[day]
 end
-
-
 end

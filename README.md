@@ -28,14 +28,14 @@ using the Umm al-Qura calendar.
 ## Basic Usage
 
 ```julia
-import hijri_converter: Hijri, Gregorian
+import hijri_converter: Hijri, Gregorian, to_hijri, to_gregorian
 
 
 # Convert a Hijri date to Gregorian
-g = Hijri(1403, 2, 17).to_gregorian()
+g = to_gregorian(Hijri(1403, 2, 17))
 
 # Convert a Gregorian date to Hijri
-h = Gregorian(1982, 12, 2).to_hijri()
+h = to_hijri(Gregorian(1982, 12, 2))
 ```
 
 <!-- end summary -->

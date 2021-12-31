@@ -143,7 +143,7 @@ function to_hijri(date::Gregorian)
         year = years + 1
         month = months - (years * 12) + 1
         day = rjd - month_starts[index] + 1
-        return Hijri(false, year, month, day)
+        return Hijri(year, month, day, false)
 end
 
 @doc    """Return proleptic Gregorian ordinal for the year, month and day.
