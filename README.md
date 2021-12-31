@@ -28,12 +28,28 @@ using the Umm al-Qura calendar.
 ## Basic Usage
 
 ```julia
+import hijri_converter: Hijri, Gregorian
+
+
+# Convert a Hijri date to Gregorian
+g = Hijri(1403, 2, 17).to_gregorian()
+
+# Convert a Gregorian date to Hijri
+h = Gregorian(1982, 12, 2).to_hijri()
 ```
 
 <!-- end summary -->
 
 ## Documentation
 
+
+## Progress
+You can follow progress of the project from [this Trello board](https://trello.com/b/tGMCDQjH).
+
 ## License
 
 This project is licensed under the terms of the MIT license.
+
+## Acknowledgements
+
+This project is roughly a direct translation of Python library [hijri-converter](https://github.com/dralshehri/hijri-converter). Changes were made where a certain Python feature did not exist in Julia. We do intend to add extra functionality to the project.
