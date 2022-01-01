@@ -87,7 +87,7 @@ end
 function to_julian(date::Hijri)
         month_starts = ummalqura.MONTH_STARTS
         index = _month_index(date)
-        rjd = month_starts[index] + date.day - 1
+        rjd = month_starts[index] + date.day
         jdn = helpers.rjd_to_jdn(rjd)
         return jdn
 end
@@ -216,15 +216,23 @@ function fromisoformat(date_string::String)
         year = parse(Int, date_string[1:4])
         month = parse(Int, date_string[6:7])
         day = parse(Int, date_string[9:10])
-        return Hijri(true, year, month, day) #TODO: true should be implicit
+        return Hijri(year, month, day, true) #TODO: true should be implicit
 end
 
 @doc    """Construct Hijri object from today's date.
 
         :rtype: Hijri
         """
-function today() # Gregorian struct is incomplete
-        return Gregorian.today().to_hijri()
+function hijri_today() # Gregorian struct is incomplete
+        return to_hijri(gregorian_today())
+end
+
+function gregorian_today()
+	today = Dates.today()
+	year = Dates.Year(today).value
+	month = Dates.Month(today).value
+	day = Dates.Day(today).value
+	return Gregorian(year, month, day)
 end
 
 @doc     """Return year as an integer."""
@@ -292,8 +300,7 @@ function day_name(date::T, language::String = "en") where {T <: Union{Gregorian,
         return day_name(locales.get_locale(language), isoweekday(date))
 end
 
-a = Hijri(1400, 1, 1)
-b = Gregorian(2000, 1, 1)
-@show a, b
+function datetuple(date::T) where {T <: Union{Hijri, Gregorian}}
+	return (date.year, date.month, date.day)
 end
-
+end

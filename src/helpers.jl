@@ -171,14 +171,14 @@ function _ord2ymd(n)
     leapyear = n1 == 3 && (n4 != 24 || n100 == 3)
     @assert leapyear == _is_leap(year)
     month = (n + 50) >> 5
-    preceding = _DAYS_BEFORE_MONTH[month] + (month > 2 && leapyear)
+    preceding = _DAYS_BEFORE_MONTH[month+1] + (month > 2 && leapyear)
     if preceding > n  # estimate is too large
         month -= 1
         preceding -= _DAYS_IN_MONTH[month] + (month == 2 && leapyear)
     end
     
     n -= preceding
-    @assert 0 <= n && n < _days_in_month(year, month) string("n: ", n, "days in month: ", _days_in_month(year, month))
+    @assert 0 <= n && n < _days_in_month(year, month) string("n: ", n, ", days in month: ", _days_in_month(year, month))
 
     # Now the year and month are correct, and n is the offset from the
     # start of that month:  we're done!

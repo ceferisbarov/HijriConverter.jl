@@ -43,8 +43,8 @@ h = to_hijri(Gregorian(1982, 12, 2))
 ## Documentation
 
 
-## Progress
-You can follow progress of the project from [this Trello board](https://trello.com/b/tGMCDQjH).
+## Progress and Feedback
+You can follow progress of the project from [this Trello board](https://trello.com/b/tGMCDQjH). You can email me at cefer.isbarov@gmail.com for any feedback or suggestion.
 
 ## License
 
