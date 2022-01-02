@@ -1,4 +1,8 @@
-name = "hijri_converter"
+name = "HijriConverter"
 uuid = "1684ca53-84b9-4d6f-b1d0-0dc9aead1b39"
 authors = ["ceferisbarov <-l>"]
 version = "0.1.0"
+
+[deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"

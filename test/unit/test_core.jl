@@ -1,4 +1,5 @@
-include("../../src/convert.jl")
+module test_core
+include("../../src/HijriConverter.jl")
 using .core
 using Test
 
@@ -122,41 +123,4 @@ end
 function test_month_index()
         @test core._month_index(hijri_obj_1) == 811
 end
-
-test_equality()
-
-test_ordering()
-
-test_fromisoformat()
-
-test_today()
-
-test_year()
-
-test_month()
-
-test_day()
-
-test_datetuple()
-
-test_isoformat()
-
-test_dmyformat()
-
-test_month_length()
-
-test_month_name()
-
-test_weekday()
-
-test_iso_weekday()
-
-test_day_name()
-
-test_notation()
-
-test_to_julian()
-
-test_to_gregorian()
-
-test_month_index()
+end

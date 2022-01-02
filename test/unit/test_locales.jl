@@ -1,3 +1,5 @@
+module test_locales
+
 include("../../src/locales.jl")
 using .locales
 using Test
@@ -26,6 +28,7 @@ function test_locale_map()
         @test "ar" in keys(locales._locale_map)
         @test "bn" in keys(locales._locale_map)
 end
+end
 
 #function test_duplicated_language_tag()
  #       @test_throws LookupError
@@ -33,5 +36,3 @@ end
  #           class ExtraLocale(locales.Locale):
   #              language_tag = "en"
 
-test_locale_data_structure()
-test_locale_map()

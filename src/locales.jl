@@ -1,10 +1,9 @@
-module locales
 """Localization for the Hijri month and day names."""
+module locales
+using Parameters
 
-import Base.@kwdef
-
-@doc   """A Hijri locale object represents locale-specific data and functionality."""
-@kwdef struct Locale
+#@doc   """A Hijri locale object represents locale-specific data and functionality.""" ->
+@with_kw struct Locale
     language_tag::String
     month_names::Array{String}
     gregorian_month_names::Array{String}
