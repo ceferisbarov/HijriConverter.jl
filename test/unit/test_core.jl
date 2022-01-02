@@ -1,13 +1,13 @@
 module test_core
+
 include("../../src/HijriConverter.jl")
-using .core
 using Test
+using .HijriConverter
 
-
-hijri_obj_1 = core.Hijri(1410, 8, 13)
-hijri_obj_2 = core.Hijri(1460, 4, 21)
-hijri_obj_3 = core.Hijri(1343, 1, 1)
-hijri_obj_4 = core.Hijri(1500, 12, 30)
+hijri_obj_1 = HijriConverter.Hijri(1410, 8, 13)
+hijri_obj_2 = HijriConverter.Hijri(1460, 4, 21)
+hijri_obj_3 = HijriConverter.Hijri(1343, 1, 1)
+hijri_obj_4 = HijriConverter.Hijri(1500, 12, 30)
 
 
 function TestHijri()
@@ -23,8 +23,8 @@ function TestHijri()
 end
 
 function test_equality()
-        @test hijri_obj_1 == core.Hijri(1410, 8, 13)
-        @test hijri_obj_1 != core.Hijri(1410, 8, 14)
+        @test hijri_obj_1 == HijriConverter.Hijri(1410, 8, 13)
+        @test hijri_obj_1 != HijriConverter.Hijri(1410, 8, 14)
         @test hijri_obj_1 != "1410-08-13"
 end
 
@@ -37,14 +37,14 @@ end
 
 
 function test_fromisoformat()
-        @test core.fromisoformat("1410-08-13") == hijri_obj_1
-        @test core.fromisoformat("1460-04-21") == hijri_obj_2
-        @test core.fromisoformat("1343-01-01") == hijri_obj_3
-        @test core.fromisoformat("1500-12-30") == hijri_obj_4
+        @test HijriConverter.fromisoformat("1410-08-13") == hijri_obj_1
+        @test HijriConverter.fromisoformat("1460-04-21") == hijri_obj_2
+        @test HijriConverter.fromisoformat("1343-01-01") == hijri_obj_3
+        @test HijriConverter.fromisoformat("1500-12-30") == hijri_obj_4
 end
 
 function test_today()
-        @test core.to_gregorian(core.hijri_today()) == core.gregorian_today()
+        @test HijriConverter.to_gregorian(HijriConverter.hijri_today()) == HijriConverter.gregorian_today()
 end
 
 function test_year()
@@ -69,58 +69,58 @@ function test_day()
 end
 
 function test_datetuple()
-        @test core.datetuple(hijri_obj_1) == (1410, 8, 13)
+        @test HijriConverter.datetuple(hijri_obj_1) == (1410, 8, 13)
 end
 
 function test_isoformat()
-        @test core.isoformat(hijri_obj_1) == "1410-08-13"
+        @test HijriConverter.isoformat(hijri_obj_1) == "1410-08-13"
 end
 
 function test_dmyformat()
-        @test core.dmyformat(hijri_obj_1) == "13/08/1410"
-        @test core.dmyformat(hijri_obj_1; padding=false) == "13/8/1410"
-        @test core.dmyformat(hijri_obj_1; separator=".") == "13.08.1410"
+        @test HijriConverter.dmyformat(hijri_obj_1) == "13/08/1410"
+        @test HijriConverter.dmyformat(hijri_obj_1; padding=false) == "13/8/1410"
+        @test HijriConverter.dmyformat(hijri_obj_1; separator=".") == "13.08.1410"
 end
 
 function test_month_length()
-        @test core.month_length(hijri_obj_1) == 29
+        @test HijriConverter.month_length(hijri_obj_1) == 29
 end
 
 function test_month_name()
-        @test core.month_name(hijri_obj_1) == "Sha’ban"
-        @test core.month_name(hijri_obj_1, "en") == "Sha’ban"
-        @test core.month_name(hijri_obj_1, "en-US") == "Sha’ban"
+        @test HijriConverter.month_name(hijri_obj_1) == "Sha’ban"
+        @test HijriConverter.month_name(hijri_obj_1, "en") == "Sha’ban"
+        @test HijriConverter.month_name(hijri_obj_1, "en-US") == "Sha’ban"
 end
 
 function test_weekday()
-        @test core.weekday(hijri_obj_1) == 5
+        @test HijriConverter.weekday(hijri_obj_1) == 5
 end
 
 function test_iso_weekday()
-        @test core.isoweekday(hijri_obj_1) == 6
+        @test HijriConverter.isoweekday(hijri_obj_1) == 6
 end
 
 function test_day_name()
-        @test core.day_name(hijri_obj_1) == "Saturday"
-        @test core.day_name(hijri_obj_1, "en") == "Saturday"
-        @test core.day_name(hijri_obj_1, "en-US") == "Saturday"
+        @test HijriConverter.day_name(hijri_obj_1) == "Saturday"
+        @test HijriConverter.day_name(hijri_obj_1, "en") == "Saturday"
+        @test HijriConverter.day_name(hijri_obj_1, "en-US") == "Saturday"
 end
 
 function test_notation()
-        @test core.notation(hijri_obj_1) == "AH"
-        @test core.notation(hijri_obj_1, "en") == "AH"
-        @test core.notation(hijri_obj_1, "en-US") == "AH"
+        @test HijriConverter.notation(hijri_obj_1) == "AH"
+        @test HijriConverter.notation(hijri_obj_1, "en") == "AH"
+        @test HijriConverter.notation(hijri_obj_1, "en-US") == "AH"
 end
 
 function test_to_julian()
-        @test core.to_julian(hijri_obj_1) == 2447961
+        @test HijriConverter.to_julian(hijri_obj_1) == 2447961
 end
 
 function test_to_gregorian()
-        @test core.datetuple(core.to_gregorian(hijri_obj_1)) == (1990, 3, 10)
+        @test HijriConverter.datetuple(HijriConverter.to_gregorian(hijri_obj_1)) == (1990, 3, 10)
 end
 
 function test_month_index()
-        @test core._month_index(hijri_obj_1) == 811
+        @test HijriConverter._month_index(hijri_obj_1) == 811
 end
 end

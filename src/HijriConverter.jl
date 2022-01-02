@@ -1,4 +1,4 @@
-module core
+module HijriConverter
 # Main module of the hijri-converter package.
 include("ummalqura.jl")
 include("helpers.jl")
