@@ -19,7 +19,7 @@ end
 function _days_before_month(year, month)
     "year, month -> number of days in year preceding first day of month."
     @assert 1 <= month && month <= 12 "month must be in 1..12"
-    return _DAYS_BEFORE_MONTH[month] + (month > 2 && _is_leap(year))
+    return _DAYS_BEFORE_MONTH[month + 1] + (month > 2 && _is_leap(year))
 end
 #TODO: The functions above should probably be implemented in stdlib
 
@@ -99,9 +99,9 @@ function _ymd2ord(year, month, day)
     @assert 1 <= month && month <= 12 "month must be in 1..12"
     dim = _days_in_month(year, month)
     @assert 1 <= day && day <= dim "day must be in 1..%d' % dim"
-    return trunc(Int, _days_before_year(year) +
+    return floor(Int, _days_before_year(year) +
             _days_before_month(year, month) +
-            day)
+            day) - 1 # TODO: -1 is not necessary; without it, we should get .5s
 end
 
 function _days_in_month(year, month)

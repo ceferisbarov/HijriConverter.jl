@@ -87,7 +87,7 @@ end
 function to_julian(date::Hijri)
         month_starts = ummalqura.MONTH_STARTS
         index = _month_index(date)
-        rjd = month_starts[index] + date.day
+        rjd = month_starts[index + 1] + date.day - 1
         jdn = helpers.rjd_to_jdn(rjd)
         return jdn
 end
@@ -108,7 +108,7 @@ end
 function month_length(date::Hijri)
         month_starts = ummalqura.MONTH_STARTS
         index = _month_index(date)
-        length = month_starts[index + 1] - month_starts[index]
+        length = month_starts[index] - month_starts[index - 1]
         return length
 end
 
@@ -132,17 +132,21 @@ Gregorian(year, month, day) = Gregorian(year, month, day, true)
 
         :rtype: Hijri
         """
-function to_hijri(date::Gregorian)
+function to_hijri(date::Gregorian) # TODO: Debug
         _check_range(date)
         jdn = to_julian(date)
         rjd = helpers.jdn_to_rjd(jdn)
         month_starts = ummalqura.MONTH_STARTS
         index = helpers.bisect_left(month_starts, rjd) - 1
-        months = index + ummalqura.HIJRI_OFFSET
-        years = round(months / 12)
+        months = index + ummalqura.HIJRI_OFFSET - 1
+        
+        years = floor(months / 12)
         year = years + 1
         month = months - (years * 12) + 1
-        day = rjd - month_starts[index] + 1
+        day = rjd - month_starts[index] + 2 #TODO: I don't why this is "+2" rather than "+1"
+        
+        @assert day > 0 && day < 32
+        @assert month > 0 && month < 13
         return Hijri(year, month, day, false)
 end
 
@@ -257,7 +261,11 @@ end
 
 @doc     """Return date in ISO format i.e. ``YYYY-MM-DD``."""
 function isoformat(date::T)  where {T<:Union{Hijri, Gregorian}}
-        return string(date.year, "-", date.month, "-", date.day)
+	year = lpad(date.year, 4, "0")
+	month = lpad(date.month, 2, "0")
+	day = lpad(date.day, 2, "0")
+	
+	return string(year, "-", month, "-", day)
 end
 
 
@@ -281,7 +289,7 @@ end
             day and month values when less than 10.
         :type padding: bool
         """
-function dmyformat(date::T, separator::String = "/", padding::Bool = true) where {T <: Union{Gregorian, Hijri}}
+function dmyformat(date::T; separator::String = "/", padding::Bool = true) where {T <: Union{Gregorian, Hijri}}
 
         day = padding ? lpad(date.day, 2, "0") : date.day
         month = padding ? lpad(date.month, 2, "0") : date.month
@@ -297,7 +305,7 @@ end
         """
 function day_name(date::T, language::String = "en") where {T <: Union{Gregorian, Hijri}} #TODO: implement isoweekday for gregorian
 
-        return day_name(locales.get_locale(language), isoweekday(date))
+        return locales.day_name(locales.get_locale(language), isoweekday(date))
 end
 
 function datetuple(date::T) where {T <: Union{Hijri, Gregorian}}
