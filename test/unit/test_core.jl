@@ -29,10 +29,10 @@ function test_equality()
 end
 
 function test_ordering() #TODO: implement comparison
-#        @test hijri_obj > core.Hijri(1410, 8, 12)
- #       @test hijri_obj >= core.Hijri(1410, 8, 13)
-  #      @test hijri_obj < core.Hijri(1410, 8, 14)
-   #     @test hijri_obj <= core.Hijri(1410, 8, 13)
+        @test hijri_obj_1 > HijriConverter.Hijri(1410, 8, 12)
+        @test hijri_obj_1 >= HijriConverter.Hijri(1410, 8, 13)
+        @test hijri_obj_1 < HijriConverter.Hijri(1410, 8, 14)
+        @test hijri_obj_1 <= HijriConverter.Hijri(1410, 8, 13)
 end
 
 
@@ -90,6 +90,11 @@ function test_month_name()
         @test HijriConverter.month_name(hijri_obj_1) == "Sha’ban"
         @test HijriConverter.month_name(hijri_obj_1, "en") == "Sha’ban"
         @test HijriConverter.month_name(hijri_obj_1, "en-US") == "Sha’ban"
+        
+        @test HijriConverter.month_name(hijri_obj_1, "ar") == "شعبان"
+        @test HijriConverter.month_name(hijri_obj_1, "az") == "şaban"
+        @test HijriConverter.month_name(hijri_obj_1, "bn") == "শাবান"
+        @test HijriConverter.month_name(hijri_obj_1, "tr") == "Şaban"
 end
 
 function test_weekday()

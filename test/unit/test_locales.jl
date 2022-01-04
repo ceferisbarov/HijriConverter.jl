@@ -26,6 +26,7 @@ function test_locale_map()
         @test length(locales._locale_map) > 0
         @test "en" in keys(locales._locale_map)
         @test "ar" in keys(locales._locale_map)
+        @test "az" in keys(locales._locale_map)
         @test "bn" in keys(locales._locale_map)
 end
 end

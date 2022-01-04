@@ -97,6 +97,49 @@ ArabicLocale = Locale(
     gregorian_notation = "م"
 )
 
+AzerbaijaniLocale = Locale(
+    language_tag = "az",
+    month_names = [
+        "məhərrəm",
+        "səfər",
+        "rəbiüləvvəl",
+        "rəbiülaxır",
+        "cəmadiyələvvəl",
+        "cəmadiyəlaxır",
+        "rəcəb",
+        "şaban",
+        "ramazan",
+        "şəvval",
+        "zilqədə",
+        "zilhiccə",
+    ],
+    gregorian_month_names = [
+        "yanvar",
+        "fevral",
+        "mart",
+        "aprel",
+        "may",
+        "iyun",
+        "iyul",
+        "avqust",
+        "sentyabr",
+        "oktyabr",
+        "noyabr",
+        "dekabr",
+    ],
+    day_names = [
+        "bazar ertəsi",
+        "çərşənbə axşamı",
+        "çərşənbə",
+        "cümə axşamı",
+        "cümə",
+        "şənbə",
+        "bazar",
+    ],
+    notation = "h.s.", # TODO: Verify this
+    gregorian_notation = "b.e." # TODO: Verify this
+    )
+
 BengaliLocale = Locale(
     language_tag = "bn",
     month_names = [
@@ -140,7 +183,50 @@ BengaliLocale = Locale(
     gregorian_notation = "খ্রিস্টাব্দ"
     )
 
-_locale_map = Dict{String, Locale}("en" => EnglishLocale, "ar" => ArabicLocale, "bn" => BengaliLocale)
+TurkishLocale = Locale(
+    language_tag = "tr",
+    month_names = [
+        "Muharrem",
+        "Safer",
+        "Rebiülevvel",
+        "Rebiülahir",
+        "Cemaziyelevvel",
+        "Cemaziyelahir",
+        "Recep",
+        "Şaban",
+        "Ramazan",
+        "Şevval",
+        "Zilkade",
+        "Zilhicce",
+    ],
+    gregorian_month_names = [
+        "Ocak",
+        "Şubat",
+        "Mart",
+        "Nisan",
+        "Mayıs",
+        "Haziran",
+        "Temmuz",
+        "Ağustos",
+        "Eylül",
+        "Ekim",
+        "Kasım",
+        "Aralık",
+    ],
+    day_names = [
+        "Pazartesi",
+        "Salı",
+        "Çarşamba",
+        "Perşembe",
+        "Cuma",
+        "Cumartesi",
+        "Pazar",
+    ],
+    notation = "H.S.", # TODO: Verify this
+    gregorian_notation = "M.S."
+    )
+
+_locale_map = Dict{String, Locale}("en" => EnglishLocale, "ar" => ArabicLocale, "az" => AzerbaijaniLocale, "bn" => BengaliLocale, "tr" => TurkishLocale)
 
 @doc  """Return an appropriate :obj:`Locale` corresponding to a locale name.
 

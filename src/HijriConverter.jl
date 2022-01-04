@@ -8,6 +8,10 @@ using .helpers
 using .locales
 using Parameters
 using Dates
+import Base: isless, isgreater, isequal, !=, <=, >=
+
+export Hijri, Gregorian
+export isless, isgreater, iseequal, !=, <=, >=
 
 #-----------------PART-I--------------------
 # ----------------HIJRI-------------------
@@ -48,16 +52,16 @@ function _check_date_(date::Hijri)
         # check year
         min_year, max_year = [d[1] for d in ummalqura.HIJRI_RANGE]
         if min_year > date.year ||  date.year > max_year
-            throw(error("date out of range")) # replace with overflow error
+            throw(DomainError("date out of range"))
         end
         # check month
         if 1 > date.month || date.month > 12
-            throw(ValueError("month must be in 1..12"))
+            throw(DomainError("month must be in 1..12"))
         end
         # check day
         month_len = month_length(date)
         if 1 > date.day || date.day > month_len
-            throw(ValueError(string("day must be in 1..", month_len, " for month")))
+            throw(DomainError(string("day must be in 1..", month_len, " for month")))
         end
 end
 
@@ -78,6 +82,7 @@ end
         :rtype: Gregorian
         """
 function to_gregorian(date::Hijri)
+	_check_date_(date)
         jdn = to_julian(date)
         n = helpers.jdn_to_ordinal(jdn)
         return fromordinal(n)
@@ -87,7 +92,7 @@ end
 function to_julian(date::Hijri)
         month_starts = ummalqura.MONTH_STARTS
         index = _month_index(date)
-        rjd = month_starts[index + 1] + date.day - 1
+	rjd = month_starts[index + 1] + date.day - 1
         jdn = helpers.rjd_to_jdn(rjd)
         return jdn
 end
@@ -128,11 +133,29 @@ end
 
 Gregorian(year, month, day) = Gregorian(year, month, day, true)
 
+@doc    """Check date values if within valid range."""
+function _check_date_(date::Gregorian)
+        # check year
+        min_year, max_year = [d[1] for d in ummalqura.GREGORIAN_RANGE]
+        if min_year > date.year ||  date.year > max_year
+            throw(error("date out of range")) # replace with overflow error
+        end
+        # check month
+        if 1 > date.month || date.month > 12
+            throw(ValueError("month must be in 1..12"))
+        end
+        # check day
+        month_len = month_length(date)
+        if 1 > date.day || date.day > month_len
+            throw(ValueError(string("day must be in 1..", month_len, " for month")))
+        end
+end
+
 @doc    """Return Hijri object for the corresponding Gregorian date.
 
         :rtype: Hijri
         """
-function to_hijri(date::Gregorian) # TODO: Debug
+function to_hijri(date::Gregorian)
         _check_range(date)
         jdn = to_julian(date)
         rjd = helpers.jdn_to_rjd(jdn)
@@ -220,7 +243,7 @@ function fromisoformat(date_string::String)
         year = parse(Int, date_string[1:4])
         month = parse(Int, date_string[6:7])
         day = parse(Int, date_string[9:10])
-        return Hijri(year, month, day, true) #TODO: true should be implicit
+        return Hijri(year, month, day)
 end
 
 @doc    """Construct Hijri object from today's date.
@@ -310,5 +333,48 @@ end
 
 function datetuple(date::T) where {T <: Union{Hijri, Gregorian}}
 	return (date.year, date.month, date.day)
+end
+
+# NUMERIC COMPARISONS
+function isless(a::Hijri, b::Hijri)
+	tuple_a = datetuple(a)
+	tuple_b = datetuple(b)
+	
+	return tuple_a < tuple_b
+end
+
+function isgreater(a::Hijri, b::Hijri)
+	tuple_a = datetuple(a)
+	tuple_b = datetuple(b)
+	
+	return tuple_a > tuple_b
+end
+
+function isequal(a::Hijri, b::Hijri)
+	tuple_a = datetuple(a)
+	tuple_b = datetuple(b)
+	
+	return tuple_a == tuple_b
+end
+
+function !=(a::Hijri, b::Hijri)
+	tuple_a = datetuple(a)
+	tuple_b = datetuple(b)
+	
+	return tuple_a != tuple_b
+end
+
+function <=(a::Hijri, b::Hijri)
+	tuple_a = datetuple(a)
+	tuple_b = datetuple(b)
+	
+	return tuple_a <= tuple_b
+end
+
+function >=(a::Hijri, b::Hijri)
+	tuple_a = datetuple(a)
+	tuple_b = datetuple(b)
+	
+	return tuple_a >= tuple_b
 end
 end
