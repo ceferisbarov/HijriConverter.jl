@@ -2,7 +2,7 @@
 
 <!-- start description -->
 
-A Python package to convert accurately between Hijri and Gregorian dates
+A Julia package to convert accurately between Hijri and Gregorian dates
 using the Umm al-Qura calendar.
 
 <!-- end description -->
