@@ -123,7 +123,7 @@ end
 
 function test_to_gregorian()
         @test HijriConverter.datetuple(HijriConverter.to_gregorian(hijri_obj_1)) == (1990, 3, 10)
-#        @test HijriConverter.datetuple(HijriConverter.to_gregorian(hijri_obj_2)) == (2038, 5, 26)
+        @test HijriConverter.datetuple(HijriConverter.to_gregorian(hijri_obj_2)) == (2038, 5, 26)
         @test HijriConverter.datetuple(HijriConverter.to_gregorian(hijri_obj_3)) == (1924, 8, 2)
         @test HijriConverter.datetuple(HijriConverter.to_gregorian(hijri_obj_4)) == (2077, 11, 16)
 end

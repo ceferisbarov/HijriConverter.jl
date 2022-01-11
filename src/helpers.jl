@@ -1,10 +1,12 @@
 module helpers
+
+using Dates
+
 """Helper methods for Hijri conversion."""
 
-_DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 _DAYS_BEFORE_MONTH = [-1]
 dbm = 0
-for dim in _DAYS_IN_MONTH
+for dim in Dates.DAYSINMONTH
     global dbm
     append!(_DAYS_BEFORE_MONTH, dbm)
     dbm += dim
@@ -97,20 +99,11 @@ end
 @doc   "year, month, day -> ordinal, considering 01-Jan-0001 as day 1."
 function _ymd2ord(year, month, day)
     @assert 1 <= month && month <= 12 "month must be in 1..12"
-    dim = _days_in_month(year, month)
+    dim = Dates.daysinmonth(Date(year, month))
     @assert 1 <= day && day <= dim "day must be in 1..%d' % dim"
     return floor(Int, _days_before_year(year) +
             _days_before_month(year, month) +
             day) - 1 # TODO: -1 is not necessary; without it, we should get .5s
-end
-
-function _days_in_month(year, month)
-    "year, month -> number of days in that month in that year."
-    @assert 1 <= month && month <= 12 month
-    if month == 2 && _is_leap(year)
-        return 29
-    end
-    return _DAYS_IN_MONTH[month]
 end
 
 function _is_leap(year)
@@ -174,11 +167,11 @@ function _ord2ymd(n)
     preceding = _DAYS_BEFORE_MONTH[month+1] + (month > 2 && leapyear)
     if preceding > n  # estimate is too large
         month -= 1
-        preceding -= _DAYS_IN_MONTH[month] + (month == 2 && leapyear)
+        preceding -= Dates.DAYSINMONTH[month] + (month == 2 && leapyear)
     end
     
     n -= preceding
-    @assert 0 <= n && n < _days_in_month(year, month) string("n: ", n, ", days in month: ", _days_in_month(year, month))
+    @assert 0 <= n && n < Dates.daysinmonth(Date(year, month)) string("n: ", n, ", days in month: ", Dates.daysinmonth((year, month)))
 
     # Now the year and month are correct, and n is the offset from the
     # start of that month:  we're done!
