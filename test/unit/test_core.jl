@@ -2,6 +2,7 @@ module test_core
 
 include("../../src/HijriConverter.jl")
 using Test
+using Dates
 using .HijriConverter
 
 hijri_obj_1 = HijriConverter.Hijri(1410, 8, 13)
@@ -44,7 +45,7 @@ function test_fromisoformat()
 end
 
 function test_today()
-        @test HijriConverter.to_gregorian(HijriConverter.hijri_today()) == HijriConverter.gregorian_today()
+        @test HijriConverter.to_gregorian(HijriConverter.hijri_today()) == Dates.today()
 end
 
 function test_year()
